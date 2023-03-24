@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>CodeHunter-扫描结果通知</title>
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.2.3/css/bootstrap-grid.css" rel="stylesheet">
+</head>
+<body>
+<div class="container" style="margin-left: 200px;margin-right: 200px;">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="jumbotron well">
+                <h1 style="text-align: center">
+                    CodeHunter
+                </h1>
+                <h2>
+                    尊敬的用户：
+                </h2>
+                <h3 th:text="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您的账户下&nbsp;&nbsp;'
+                +${task}+'&nbsp;&nbsp;任务&nbsp;&nbsp;'
+                +${repository}+'&nbsp;&nbsp;仓库&nbsp;&nbsp;'
+                +${branch}+'&nbsp;&nbsp;分支&nbsp;&nbsp;'
+                +'于&nbsp;&nbsp;'+${timestamp}+'&nbsp;&nbsp;触发了一次代码扫描，本次扫描共发现错误'+${total}+'个。'"></h3>
+                <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;查看详情请点击下方按钮跳转至CodeHunter，感谢您的使用！</h3>
+                <br/><br/>
+                <h4 style="text-align: right;">CodeHunter</h4>
+            </div>
+            <button type="button" class="btn btn-lg btn-primary"><a href="http://localhost:3001" >打开CodeHunter</a></button>
+            <button type="button" class="btn btn-lg btn-primary"><a href="http://www.insoft-lab.com:1080" >打开Insoft-Lab官网</a></button>
+        </div>
+    </div>
+    <br/><br/>
+    <div style="">
+        <div style="width: 33%;display: inline-block;color: red;">
+            <h3>
+                严重问题
+            </h3>
+            <h3 th:text="${serious}+'个'">
+            </h3>
+        </div>
+        <div style="width: 33%;display: inline-block;color: #2e8ded;">
+            <h3>
+                警告问题
+            </h3>
+            <h3 th:text="${warn}+'个'"></h3>
+        </div>
+        <div style="width: 33%;display: inline-block;color: seagreen;">
+            <h3 class="text-center">
+                建议问题
+            </h3>
+            <h3 th:text="${propose}+'个'"></h3>
+        </div>
+
+<!--        <div>-->
+<!--            <table class="table table-hover table-striped">-->
+<!--                <thead>-->
+<!--                <tr>-->
+<!--                    <th>-->
+<!--                        文件路径-->
+<!--                    </th>-->
+<!--                    <th>-->
+<!--                        严重问题-->
+<!--                    </th>-->
+<!--                    <th>-->
+<!--                        警告问题-->
+<!--                    </th>-->
+<!--                    <th>-->
+<!--                        建议问题-->
+<!--                    </th>-->
+<!--                </tr>-->
+<!--                </thead>-->
+<!--                <tbody>-->
+<!--                <tr>-->
+<!--                    <td>-->
+<!--                        1-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        TB - Monthly-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        01/04/2012-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        Default-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr class="success">-->
+<!--                    <td>-->
+<!--                        1-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        TB - Monthly-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        01/04/2012-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        Approved-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr class="error">-->
+<!--                    <td>-->
+<!--                        2-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        TB - Monthly-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        02/04/2012-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        Declined-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr class="warning">-->
+<!--                    <td>-->
+<!--                        3-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        TB - Monthly-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        03/04/2012-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        Pending-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr class="info">-->
+<!--                    <td>-->
+<!--                        4-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        TB - Monthly-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        04/04/2012-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                        Call in to confirm-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+    </div>
+</div>
+<script>
+
+</script>
+<style>
+    a{
+        text-decoration: none!important;
+        color: black;
+    }
+</style>
+
+</body>
+</html>
