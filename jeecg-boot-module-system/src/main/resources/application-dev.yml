@@ -140,12 +140,11 @@ spring:
         master:
           #本地
           url: jdbc:mysql://localhost:3306/jeecg-boot-vue3?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-          #腾讯云
-          #url: jdbc:mysql://1.12.47.77:3306/jeecg-boot-vue3?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+
           #实验室
           #url: jdbc:mysql://8.134.53.160:3306/jeecg-boot-vue3?characterEncoding=UTF-8&useUnicode=true&useSSL=false&tinyInt1isBit=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
           username: root
-          password: Ww8868648
+          password:
           #实验室
 #          password: INSOFT-lab123
           driver-class-name: com.mysql.cj.jdbc.Driver
@@ -169,8 +168,6 @@ spring:
     password: 'INSOFTlab!@#'
 #本地
 #    password: '123456'
-#腾讯云
-#    password: 'nwbqnsxljnmysl'
     port: 6379
 #mybatis plus 设置
 mybatis-plus:
