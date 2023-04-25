@@ -1,6 +1,10 @@
 package org.jeecg.modules.system.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -12,6 +16,9 @@ import java.time.LocalDateTime;
  * @author 菜瓜皮
  * @since 2023-02-25
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @TableName("task_scan_result")
 public class TaskScanResult implements Serializable {
 
@@ -106,5 +113,10 @@ public class TaskScanResult implements Serializable {
         this.id = id;
         this.timestamp = timestamp;
         this.javaruleresult = javaruleresult;
+    }
+
+    public TaskScanResult(Integer id, LocalDateTime timestamp) {
+        this.id = id;
+        this.timestamp = timestamp;
     }
 }

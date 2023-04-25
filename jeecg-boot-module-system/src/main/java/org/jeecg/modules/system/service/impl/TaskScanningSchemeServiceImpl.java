@@ -34,8 +34,61 @@ public class TaskScanningSchemeServiceImpl extends ServiceImpl<TaskScanningSchem
     static final JSONObject jsonObject=new JSONObject();
     static {
         jsonObject.put("1","严重");
+
         jsonObject.put("2","警告");
-        jsonObject.put("3","建议");
+        jsonObject.put("4","严重");
+        jsonObject.put("5","严重");
+        jsonObject.put("6","严重");
+        jsonObject.put("7","严重");
+        jsonObject.put("8","严重");
+        jsonObject.put("11","严重");
+        jsonObject.put("16","严重");
+        jsonObject.put("18","严重");
+        jsonObject.put("20","严重");
+
+        jsonObject.put("21","严重");
+        jsonObject.put("22","严重");
+        jsonObject.put("23","严重");
+        jsonObject.put("25","严重");
+        jsonObject.put("29","严重");
+        jsonObject.put("30","严重");
+        jsonObject.put("31","严重");
+        jsonObject.put("32","严重");
+        jsonObject.put("38","严重");
+        jsonObject.put("41","严重");
+
+        jsonObject.put("42","警告");
+        jsonObject.put("44","严重");
+        jsonObject.put("45","警告");
+        jsonObject.put("47","严重");
+        jsonObject.put("48","警告");
+        jsonObject.put("49","严重");
+        jsonObject.put("50","警告");
+        jsonObject.put("51","警告");
+        jsonObject.put("54","严重");
+        jsonObject.put("56","警告");
+
+        jsonObject.put("57","警告");
+        jsonObject.put("58","警告");
+        jsonObject.put("59","建议");
+        jsonObject.put("60","警告");
+        jsonObject.put("61","建议");
+        jsonObject.put("62","建议");
+        jsonObject.put("63","警告");
+        jsonObject.put("64","建议");
+        jsonObject.put("65","警告");
+        jsonObject.put("67","建议");
+
+        jsonObject.put("68","建议");
+        jsonObject.put("69","警告");
+        jsonObject.put("73","建议");
+        jsonObject.put("74","建议");
+        jsonObject.put("75","警告");
+        jsonObject.put("76","警告");
+        jsonObject.put("77","建议");
+        jsonObject.put("79","建议");
+        jsonObject.put("101","警告");
+        jsonObject.put("125","警告");
     }
 
 

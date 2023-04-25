@@ -76,10 +76,14 @@ public class ShiroConfig {
             }
         }
         // 配置不会被拦截的链接 顺序判断
+        filterChainDefinitionMap.put("/taskScanningScheme/test", "anon"); //caiguapi
+
+        //TODO 权限应该更改（不应该放行）
         filterChainDefinitionMap.put("/Git/getToken", "anon"); //caiguapi
         filterChainDefinitionMap.put("/certificationManagementForm/queryCertification", "anon"); //caiguapi
         filterChainDefinitionMap.put("/test/jeecgDemo/hello1", "anon"); //caiguapi
         filterChainDefinitionMap.put("/Git/success", "anon"); //caiguapi
+
         filterChainDefinitionMap.put("/sys/cas/client/validateLogin", "anon"); //cas验证登录
         filterChainDefinitionMap.put("/sys/randomImage/**", "anon"); //登录验证码接口排除
         filterChainDefinitionMap.put("/sys/checkCaptcha", "anon"); //登录验证码接口排除

@@ -11,11 +11,8 @@ import org.jeecg.modules.system.entity.CertificationManagementForm;
 import org.jeecg.modules.system.entity.TaskScanningScheme;
 import org.jeecg.modules.system.service.ITaskScanningSchemeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
 
@@ -34,6 +31,14 @@ public class TaskScanningSchemeController {
 
     @Autowired
     private ITaskScanningSchemeService iTaskScanningSchemeService;
+
+    /**
+     * 网络钩子自动检测
+     */
+    @GetMapping(value = "/test")
+    public void test(){
+        System.out.println("通過測試");
+    }
 
     @GetMapping(value = "/queryTaskScan")
     public TaskScanningScheme queryTaskScan(@RequestParam("Sysname")String Sysname, @RequestParam("Taskname")String Taskname){
@@ -64,6 +69,36 @@ public class TaskScanningSchemeController {
         resultobj.setMessage(Enum.UPDATE_ERROR);
         resultobj.setResult(null);
         return resultobj;
+    }
+
+    @PostMapping(value = "/updateTaskScanSchema")
+    public Result<TaskScanningScheme> updateTaskScanSchema(@RequestBody JSONObject jsonObject1){
+        System.out.println(jsonObject1);
+        String taskId = jsonObject1.getString("taskId");
+        String configList = jsonObject1.getString("configList");
+        System.out.println(taskId);
+        System.out.println(configList);
+        Result<TaskScanningScheme> resultobj = new Result<TaskScanningScheme>();
+        //构造规则对象
+        JSONArray jsonArray=JSONArray.fromObject(configList);
+        System.out.println(jsonArray);
+        JSONObject jsonObject=new JSONObject();
+        for (int i=0;i<jsonArray.size();i++){
+            System.out.println(jsonArray.getJSONObject(i));
+            System.out.println(jsonArray.getJSONObject(i).getString("remark"));
+            jsonObject.put(jsonArray.getJSONObject(i).getString("id"),jsonArray.getJSONObject(i).getString("remark"));
+        }
+        resultobj.setCode(Enum.REQUEST_NORMAL);
+        //将规则对象传入到服务层处理
+        if(iTaskScanningSchemeService.updateTaskScanById(Integer.parseInt(taskId),jsonObject)){
+            resultobj.setMessage(Enum.UPDATE_SUCCESS);
+            resultobj.setResult(iTaskScanningSchemeService.QueryTaskScanById(Integer.parseInt(taskId)));
+            return resultobj;
+        }
+        resultobj.setMessage(Enum.UPDATE_ERROR);
+        resultobj.setResult(null);
+        return resultobj;
+//        return null;
     }
 
     @GetMapping(value = "/updateEmail")

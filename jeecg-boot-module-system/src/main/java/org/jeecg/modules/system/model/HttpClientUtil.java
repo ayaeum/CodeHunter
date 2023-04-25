@@ -19,6 +19,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.jeecg.common.exception.JeecgBootExceptionHandler;
 
@@ -214,18 +215,18 @@ public class HttpClientUtil {
                 CloseableHttpClient httpClient = HttpClients.createDefault();//创建一个获取连接客户端的工具
                 HttpPost httpPost = new HttpPost(url);//创建Post请求
                 httpPost.addHeader("Content-Type", "application/json;charset=utf-8");//添加请求头
-                StringEntity entity = new StringEntity(jsonArray);//使用StringEntity转换成实体类型
-                entity.setContentEncoding("UTF-8");
+                StringEntity entity = new StringEntity(jsonArray,"utf-8");//使用StringEntity转换成实体类型
+//                entity.setContentEncoding(new BasicHeader("utf-8", "application/json"));
                 entity.setContentType("application/json");//发送json数据需要设置contentType
                 httpPost.setEntity(entity);//将封装的参数添加到Post请求中
                 CloseableHttpResponse response = httpClient.execute(httpPost);//执行请求
                 HttpEntity responseEntity = response.getEntity();//获取响应的实体
-                String entityString = EntityUtils.toString(responseEntity,"utf-8");//转化成字符串
-                String httpResult = new String(entityString.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);//返回的是Utf-8格式，所以需要转换一下格式，不然乱码
+                String entityString = EntityUtils.toString(responseEntity);//转化成字符串
                 response.close();
                 httpClient.close();
                 return entityString;
             } catch (Exception e) {
+                e.printStackTrace();
                 System.out.println("出错位置：HttpClientUtil");
                 System.out.println(e);
             }

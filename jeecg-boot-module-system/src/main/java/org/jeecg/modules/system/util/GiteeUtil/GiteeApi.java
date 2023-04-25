@@ -20,8 +20,6 @@ import java.util.List;
  */
 public class GiteeApi {
 
-
-
     /**
      * 传入一个认证记录返回一个新的授权码
      * @param certificationManagementForm

@@ -35,6 +35,7 @@ import org.jeecg.modules.system.mapper.AppUserInfoMapper;
 import org.jeecg.modules.system.mapper.TaskScanningSchemeMapper;
 import org.jeecg.modules.system.model.HttpClientUtil;
 import org.jeecg.modules.system.service.*;
+import org.jeecg.modules.system.util.CodeUtil;
 import org.jeecg.modules.system.util.MethodExtractorUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,7 +59,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import detector.DetectionRun;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -93,10 +93,119 @@ public class SampleTest {
 	@Resource
 	private ITaskScanResultService iTaskScanResultService;
 
+	@Resource
+	private CodeUtil codeUtil;
+
+	String code="\t@Test\n" +
+			"\tpublic void test(){\n" +
+			"\t\tString filePath=\"F:\\\\jeecg-boot-master\\\\jeecg-boot-master\\\\jeecg-boot\\\\jeecg-boot-module-system\\\\src\\\\main\\\\java\\\\org\\\\jeecg\\\\modules\\\\system\\\\service\\\\impl\\\\SysDataSourceServiceImpl.java\";\n" +
+			"\t\tFile file = new File(filePath);\n" +
+			"\t\tCompilationUnit cu = null;\n" +
+			"\t\ttry {\n" +
+			"\t\t\tcu = StaticJavaParser.parse(file);\n" +
+			"\t\t} catch (FileNotFoundException e) {\n" +
+			"\t\t\te.printStackTrace();\n" +
+			"\t\t}\n" +
+			"\t\t//1.获取方法名和参数\n" +
+			"\t\tnew MethodExtractorUtil.MethodVisitor().visit(cu, null);\n" +
+			"\n" +
+			"\t\t//2.分割方法\n" +
+			"\t\ttry {\n" +
+			"\t\t\tJSONArray jsonArray = new MethodExtractorUtil.MethodVisitor().methodCutter(cu, filePath);\n" +
+			"\t\t\ttry {\n" +
+			"\t\t\t\tCloseableHttpClient httpClient = HttpClients.createDefault();//创建一个获取连接客户端的工具\n" +
+			"\t\t\t\tHttpPost httpPost = new HttpPost(\"http://8.134.53.160:5000/cloneDetection/\");//创建Post请求\n" +
+			"\t\t\t\thttpPost.addHeader(\"Content-Type\", \"application/json;charset=utf-8\");//添加请求头\n" +
+			"\t\t\t\tStringEntity entity = new StringEntity(jsonArray.toJSONString());//使用StringEntity转换成实体类型\n" +
+			"\t\t\t\tSystem.out.println(jsonArray.toJSONString());\n" +
+			"\t\t\t\tentity.setContentEncoding(\"UTF-8\");\n" +
+			"\t\t\t\tentity.setContentType(\"application/json\");//发送json数据需要设置contentType\n" +
+			"\t\t\t\thttpPost.setEntity(entity);//将封装的参数添加到Post请求中\n" +
+			"\t\t\t\tCloseableHttpResponse response = httpClient.execute(httpPost);//执行请求\n" +
+			"\t\t\t\tHttpEntity responseEntity = response.getEntity();//获取响应的实体\n" +
+			"\t\t\t\tString entityString = EntityUtils.toString(responseEntity);//转化成字符串\n" +
+			"\t\t\t\tSystem.out.println(entityString);\n" +
+			"\t\t\t\tJSONArray jsonArray1 = JSONArray.parseArray(entityString);\n" +
+			"\t\t\t\tSystem.out.println(jsonArray1);\n" +
+			"\n" +
+			"\t\t\t\tString httpResult = new String(entityString.getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.UTF_8);//返回的是Utf-8格式，所以需要转换一下格式，不然乱码\n" +
+			"\t\t\t\tSystem.out.println(httpResult);\n" +
+			"\t\t\t\tresponse.close();\n" +
+			"\t\t\t\thttpClient.close();\n" +
+			"\t\t\t} catch (Exception e) {\n" +
+			"\t\t\t}\n" +
+			"\t\t} catch (IOException e) {\n" +
+			"\t\t\te.printStackTrace();\n" +
+			"\t\t}\n" +
+			"\n" +
+			"\t\tHttpClientUtil.createGetHttpByPath(\"http://8.134.53.160:5000/test/\");\n" +
+			"\t}\n" +
+			"\n" +
+			"\t@Test\n" +
+			"\tpublic void test2(){\n" +
+			"\n" +
+			"\t}\n" +
+			"\n" +
+			"\t@Test\n" +
+			"\tpublic void sendHtmlMailThymeleaf(){\n" +
+			"\t\tSystem.out.println(LocalDateTime.now().format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd HH:mm:ss\")));\n" +
+			"\t\tContext ctx = new Context();\n" +
+			"\t\t//查出任务信息\n" +
+			"\t\tctx.setVariable(\"timestamp\", LocalDateTime.now().format(DateTimeFormatter.ofPattern(\"yyyy-MM-dd HH:mm:ss\")));\n" +
+			"\t\tString mail = templateEngine.process(\"scanresult.html\", ctx);\n" +
+			"\t\tsendHtmlMail.sendHtmlMails(\"1192129669@qq.com\",\n" +
+			"\t\t\t\t\"1192129669@qq.com\",\n" +
+			"\t\t\t\t\"测试邮件主题（Thymeleaf）\",\n" +
+			"\t\t\t\tmail);\n" +
+			"\t}\n" +
+			"\n" +
+			"\t@Test\n" +
+			"\tpublic void sendMailHtml(){\n" +
+			"\t\tString to=\"1192129669@qq.com\";\n" +
+			"\t\tString subject=\"主题:HTML的邮件 \";\n" +
+			"\t\tString content=\"<h1>这是一个HTML类型的邮件</h1>\";\n" +
+			"\t\tsendHtmlMail.sendHtmlMail(to,subject,content);\n" +
+			"\t}\n" +
+			"\n" +
+			"\t@Test\n" +
+			"\tpublic void testRedis() {\n" +
+			"\t\tstringRedisTemplate.opsForValue().set(\"host:port\",\"8.134.53.160:8080\",1, TimeUnit.MINUTES);\n" +
+			"//\t\tSystem.out.println(stringRedisTemplate.opsForValue().get(\"host:port\"));\n" +
+			"\t}\n" +
+			"\n" +
+			"\t@Test\n" +
+			"\tpublic void testMail() {\n" +
+			"\t\tMailTemplate template = new MailTemplate(\"1192129669@qq.com\",\"1192129669@qq.com\",\"CodeHunter通知\",\"欢迎使用CodeHunter！\");\n" +
+			"\t\tiSendMailService.SendMail(template);\n" +
+			"\t}\n" +
+			"\n" +
+			"\t@Test\n" +
+			"\tpublic void TestGitlab(){\n" +
+			"\t\t//获取所有用户的所有仓库\n" +
+			"\t\tString s = HttpClientUtil.createGetHttpByPath(\"http://8.134.53.160:8081/api/v4/projects/1/members?private_token=1sRC1BZfxk7V2ZizkGJe&per_page=10\");\n" +
+			"\t\tSystem.out.println(s);\n" +
+			"\t}\n" +
+			"\n" +
+			"\t@Test\n" +
+			"\tpublic void getUserProjects(){\n" +
+			"\t\tString private_token = \"1sRC1BZfxk7V2ZizkGJe\";\n" +
+			"\t\tString host = \"8.134.53.160:8081\";\n" +
+			"\t\tSystem.out.println(iGitlabService.getUserProjects(host,private_token));\n" +
+			"\t}\n" +
+			"\n" +
+			"\t@Test\n" +
+			"\tpublic void getFileTree(){\n" +
+			"\t\tString path = \"root%2Fcodehunter\";\n" +
+			"\t\tString private_token = \"1sRC1BZfxk7V2ZizkGJe\";\n" +
+			"\t\tString host = \"8.134.53.160:8081\";\n" +
+			"\t\tiGitlabService.getFileTree(host,path,\"master\",private_token);\n" +
+			"\t}";
+
 	@Test
 	public void testQueryCurrentTaskResult(){
-		List<TaskScanResult> taskScanResults = iTaskScanResultService.queryAllTaskResultsById(32);
-		System.out.println(taskScanResults.get(taskScanResults.size()-1));
+		String[] strings = codeUtil.codeDivideToLine(code);
+//		List<TaskScanResult> taskScanResults = iTaskScanResultService.queryAllTaskResultsById(32);
+//		System.out.println(taskScanResults.get(taskScanResults.size()-1));
 	}
 
 	@Test

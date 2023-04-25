@@ -1,20 +1,12 @@
 package org.jeecg.modules.system.controller;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import detector.DetectionRun;
-import org.checkerframework.checker.units.qual.A;
 import org.jeecg.common.api.vo.Result;
-import org.jeecg.modules.system.controller.Test.Enum;
 import org.jeecg.modules.system.entity.*;
 import org.jeecg.modules.system.service.ITaskScanResultService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
