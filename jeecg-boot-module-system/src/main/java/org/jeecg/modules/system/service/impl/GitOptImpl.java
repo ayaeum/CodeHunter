@@ -42,10 +42,14 @@ public class GitOptImpl implements IGitOptService {
             case "Gitee":
                 for (String value : filelist) {
                     List<NameValuePair> params = new ArrayList<>();
+                    JSONObject jsonObject=new JSONObject();
                     params.add(new BasicNameValuePair("access_token",certificationManagementForm.getAccessToken()));
                     String s = HttpClientUtil.createGetHttp("https","gitee.com","/api/v5/repos/"+taskManagementTable.getrepoowner()+"/"+taskManagementTable.getpath()+"/contents/"+value,params);
-                    JSONObject jsonObject=new JSONObject();
-                    jsonObject.put("code",Base64Decode.decode(JSONObject.parseObject(s).getString("content")));
+                    if (s.startsWith("[")){
+                        continue;
+                    }
+                    String content=Base64Decode.decode(JSONObject.parseObject(s).getString("content"));
+                    jsonObject.put("code",content);
                     jsonObject.put("filename",value);
                     jsonArray.add(jsonObject);
                 }

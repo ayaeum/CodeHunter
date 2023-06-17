@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WENS,你好</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/languages/java.min.js"></script>
+    <script src="static/js/jquery-3.2.1.min.js"></script>
+    <script>hljs.highlightAll();</script>
+
+    <style>
+        pre {
+            /*counter-reset: line;*/
+            font-family: 'Fira Code', monospace;
+            color: #f8f8f2;
+            padding: 1em;
+            overflow-x: auto;
+            font-size: 14px;
+            border-radius: 5px;
+        }
+
+        pre code {
+            /*counter-increment: line;*/
+            color: black;
+            line-height: 1.5;
+            position: relative;
+        }
+
+        pre code:before {
+            /*content: counter(line);*/
+            position: absolute;
+            left: -1.5em;
+            text-align: right;
+            color: #75715e;
+            width: 1.5em;
+        }
+
+        #button2 {
+            background-color: white;
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: center;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 80px;
+        }
+
+        table {
+            border-collapse: collapse;
+            margin: 0;
+            padding: 0;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+            font-size: 16px;
+            margin: 0;
+            padding: 0;
+        }
+
+        th {
+            background-color: #ddd;
+            color: white;
+        }
+
+        .Zebra {
+            /*background-color: #dddddd;*/
+        }
+
+        a{
+            text-decoration: none!important;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div style="width: 100%;height: 100px;text-align: center;font-size: 30px;font-weight: bold;text-align-all: center">JAVA规约扫描结果</div>
+
+<!--    <h2>-->
+<!--        尊敬的WENS：-->
+<!--    </h2>-->
+    <h3 text="'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您的账户下&nbsp;&nbsp;'
+                +${task}+'&nbsp;&nbsp;任务&nbsp;&nbsp;'
+                +${repository}+'&nbsp;&nbsp;仓库&nbsp;&nbsp;'
+                +${branch}+'&nbsp;&nbsp;分支&nbsp;&nbsp;'
+                +'于&nbsp;&nbsp;'+${timestamp}+'&nbsp;&nbsp;触发了一次代码扫描，本次扫描共发现错误'+${total}+'个。'"></h3>
+    <h3>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;当前累计统计的扫描有效率为<span style="color: #0E94EA;">10%</span>，感谢您的使用！</h3>
+    <br/><br/>
+    <table style="width: 100%;margin-top: 100px;">
+        <thead>
+        <tr>
+            <th style="border: outset;font-size: 20px;height: 50px;color: black;">ID</th>
+            <th style="border: outset;font-size: 20px;height: 50px;color: black;">文件名</th>
+            <th style="border: outset;font-size: 20px;height: 50px;color: black;" class="Zebra">文件路径</th>
+            <th style="border: outset;font-size: 20px;height: 50px;color: black;" class="Zebra">错误行号</th>
+            <th style="border: outset;font-size: 20px;height: 50px;color: black;" class="Zebra">规约内容</th>
+            <th style="border: outset;font-size: 20px;height: 50px;color: black;" class="Zebra">代码</th>
+            <th style="border: outset;font-size: 20px;height: 50px;color: black;" class="Zebra">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <!-- 添加更多的行，每一行对应数组中的一个元素 -->
+        </tbody>
+    </table>
+
+
+    <script  th:inline="javascript">
+        const data1=[[${data1}]];
+        console.log(data1);
+        const data = [
+            ["JeecgSystemApplication", "JeecgSystemApplication", "14", "长命名约定长命名约定长命名约定长命名约定长命名约定长命名约定长命名约定", "        function sayHello(name) {\n" +
+            "console.log(\"Hello, \" + name + \"!\");\n" +
+            "}\n" +
+            "sayHello(\"John\");", "数据3"],
+            ["JeecgSystemApplication", "JeecgSystemApplication", "57", "长命名约定",  "function sayHello(name) {\n" +
+            "console.log(\"Hello, \" + name + \"!\");\n" +
+            "}\n" +
+            "sayHello(\"John\");", "数据3"],
+            ["JeecgSystemApplication", "JeecgSystemApplication", "57", "长命名约定",  "function sayHello(name) {\n" +
+            "console.log(\"Hello, \" + name + \"!\");\n" +
+            "}\n" +
+            "sayHello(\"John\");", "数据3"],
+            ["JeecgSystemApplication", "JeecgSystemApplication", "57", "长命名约定",  "function sayHello(name) {\n" +
+            "console.log(\"Hello, \" + name + \"!\");\n" +
+            "}\n" +
+            "sayHello(\"John\");", "数据3"]
+            // 添加更多的数组元素
+        ];
+
+        const tableBody = document.querySelector("tbody");
+        data1.forEach(rowData => {
+            const row = document.createElement("tr");
+            row.className="Zebra";
+            var count=0;
+            rowData.forEach(cellData => {
+                count++;
+                const cell = document.createElement("td");
+                cell.style.padding="20px";
+                cell.style.border="outset";
+
+                switch (count) {
+                    case rowData.length-1:
+                        cell.innerHTML =
+                        '<pre style="text-align: left;background-color: #F0F2F5;max-width: 500px;">\n' +
+                            '<code style="max-width: 500px;">' +
+                                cellData
+                            '</code>' +
+                        '</pre>';
+                        break;
+                    case rowData.length:
+                        console.log(rowData)
+                        cell.innerHTML = "<button id='button2' onclick=\"reject(this,"+rowData[0]+")\">拒绝</button>";
+                        break;
+                    default:
+                        cell.textContent = cellData;
+                }
+                row.appendChild(cell);
+            });
+            tableBody.appendChild(row);
+        });
+
+        function reject(s,problemId){
+            //TODO 请替换为实际的API URL
+            const url = "http://localhost:8080/jeecg-boot/scanUneffectiveRecode/test";
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', url);
+            xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8'); // 设置请求头部信息
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    console.log(response); // 可以将返回的数据打印到控制台
+                }
+            };
+            xhr.withCredentials = true; // 允许发送跨域请求时携带 cookie
+            xhr.send(JSON.stringify({
+                ID: problemId
+            })); // 发送请求
+            s.disabled=true;
+        }
+    </script>
+</body>
+</html>
+

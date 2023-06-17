@@ -16,4 +16,6 @@ import java.util.List;
  */
 public interface IRuleJavaStatuteService extends IService<RuleJavaStatute> {
     public List<RuleJavaStatute> GetRule();
+
+    public List<RuleJavaStatute> GetRuleIDandRemark();
 }

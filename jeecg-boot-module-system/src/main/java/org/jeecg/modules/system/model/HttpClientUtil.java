@@ -1,5 +1,6 @@
 package org.jeecg.modules.system.model;
 
+import cn.hutool.core.codec.Base64;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -109,12 +110,44 @@ public class HttpClientUtil {
     //创建Get请求
     public static String createGetHttpByPath(String Path){
         //方法介绍：Scheme是协议类型，Host是主机地址，Path是地址之后的资源路径,返回字符串格式
-
         JSONObject jsonObject = null;
         String s =null;
 
         HttpGet httpget = new HttpGet(Path);
 
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        try {
+            CloseableHttpResponse execute = httpClient.execute(httpget);
+            HttpEntity entity = execute.getEntity();
+            Header[] allHeaders = execute.getAllHeaders(); // 获取响应头
+            if (entity.getContent() != null){
+                s = EntityUtils.toString(entity,"UTF-8");  // 将响应体的内容转换为字符串
+                StatusLine statusLine = execute.getStatusLine();		// 获取响应的状态码
+            }
+            execute.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return s;
+    }
+
+    /**
+     * 带Http Basic认证的get请求
+     * @param Path
+     * @return
+     */
+    public static String createGetHttpByPathWithBasic(String Path){
+        //方法介绍：Scheme是协议类型，Host是主机地址，Path是地址之后的资源路径,返回字符串格式
+        String userName = "13380567648";
+        String passwd = "ZZL123";
+        String combine = userName+":"+passwd;
+        String encode = Base64.encode(combine);
+        String secret = "Basic "+encode;
+        JSONObject jsonObject = null;
+        String s =null;
+
+        HttpGet httpget = new HttpGet(Path);
+        httpget.addHeader("Authorization",secret);
         CloseableHttpClient httpClient = HttpClientBuilder.create().build();
         try {
             CloseableHttpResponse execute = httpClient.execute(httpget);

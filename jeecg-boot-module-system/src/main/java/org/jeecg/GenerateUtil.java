@@ -23,7 +23,7 @@ public class GenerateUtil {
                     builder.parent("org.jeecg.modules.system")
                             .pathInfo(Collections.singletonMap(OutputFile.xml,"F:\\jeecg-boot-master\\jeecg-boot-master\\jeecg-boot\\jeecg-boot-module-system\\src\\main\\java\\org\\jeecg\\modules\\system\\mapper\\xml"));
                 }).strategyConfig(builder -> {
-            builder.addInclude("task_scan_result") // 设置需要生成的表名
+            builder.addInclude("scan_result_count") // 设置需要生成的表名
                     .addTablePrefix("t_", "c_"); // 设置过滤表前缀
         })
                 .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板

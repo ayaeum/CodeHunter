@@ -76,7 +76,9 @@ public class ShiroConfig {
             }
         }
         // 配置不会被拦截的链接 顺序判断
+        filterChainDefinitionMap.put("/taskScanStatus/ConfigurableStart", "anon"); //caiguapi
         filterChainDefinitionMap.put("/taskScanningScheme/test", "anon"); //caiguapi
+        filterChainDefinitionMap.put("/scanUneffectiveRecode/test", "anon"); //caiguapi:拒绝某项结果
 
         //TODO 权限应该更改（不应该放行）
         filterChainDefinitionMap.put("/Git/getToken", "anon"); //caiguapi

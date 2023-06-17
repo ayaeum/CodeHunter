@@ -34,16 +34,20 @@ public class TaskScanningSchemeServiceImpl extends ServiceImpl<TaskScanningSchem
     static final JSONObject jsonObject=new JSONObject();
     static {
         jsonObject.put("1","严重");
-
         jsonObject.put("2","警告");
+        jsonObject.put("3","警告");
         jsonObject.put("4","严重");
         jsonObject.put("5","严重");
         jsonObject.put("6","严重");
         jsonObject.put("7","严重");
         jsonObject.put("8","严重");
+
         jsonObject.put("11","严重");
+        jsonObject.put("12","严重");
+        jsonObject.put("15","严重");
         jsonObject.put("16","严重");
         jsonObject.put("18","严重");
+        jsonObject.put("19","严重");
         jsonObject.put("20","严重");
 
         jsonObject.put("21","严重");
@@ -54,10 +58,13 @@ public class TaskScanningSchemeServiceImpl extends ServiceImpl<TaskScanningSchem
         jsonObject.put("30","严重");
         jsonObject.put("31","严重");
         jsonObject.put("32","严重");
+        jsonObject.put("36","严重");
+        jsonObject.put("37","严重");
         jsonObject.put("38","严重");
+        jsonObject.put("39","严重");
         jsonObject.put("41","严重");
-
         jsonObject.put("42","警告");
+        jsonObject.put("43","警告");
         jsonObject.put("44","严重");
         jsonObject.put("45","警告");
         jsonObject.put("47","严重");
@@ -66,8 +73,8 @@ public class TaskScanningSchemeServiceImpl extends ServiceImpl<TaskScanningSchem
         jsonObject.put("50","警告");
         jsonObject.put("51","警告");
         jsonObject.put("54","严重");
+        jsonObject.put("55","严重");
         jsonObject.put("56","警告");
-
         jsonObject.put("57","警告");
         jsonObject.put("58","警告");
         jsonObject.put("59","建议");
@@ -87,7 +94,21 @@ public class TaskScanningSchemeServiceImpl extends ServiceImpl<TaskScanningSchem
         jsonObject.put("76","警告");
         jsonObject.put("77","建议");
         jsonObject.put("79","建议");
+        jsonObject.put("80","建议");
+        jsonObject.put("82","警告");
+        jsonObject.put("83","警告");
+        jsonObject.put("84","建议");
+        jsonObject.put("89","建议");
+        jsonObject.put("90","警告");
+        jsonObject.put("95","警告");
+        jsonObject.put("96","警告");
+        jsonObject.put("97","警告");
+        jsonObject.put("98","警告");
+        jsonObject.put("100","警告");
         jsonObject.put("101","警告");
+        jsonObject.put("103","警告");
+        jsonObject.put("104","警告");
+
         jsonObject.put("125","警告");
     }
 

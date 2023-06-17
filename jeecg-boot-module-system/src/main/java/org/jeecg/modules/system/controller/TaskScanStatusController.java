@@ -7,7 +7,9 @@ import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 
 import detector.RuleChecker;
+import jdk.nashorn.internal.ir.RuntimeNode;
 import org.jeecg.common.api.vo.Result;
+import org.jeecg.modules.jmreport.desreport.service.IJimuReportShareService;
 import org.jeecg.modules.system.entity.*;
 import org.jeecg.modules.system.model.HttpClientUtil;
 import org.jeecg.modules.system.service.*;
@@ -15,20 +17,18 @@ import org.jeecg.modules.system.util.CodeUtil;
 import org.jeecg.modules.system.util.MethodExtractorUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.Iterator;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -75,8 +75,157 @@ public class TaskScanStatusController {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
+    @Autowired
+    private IScanUneffectiveRecodeService iScanUneffectiveRecodeService;
+
+    @Autowired
+    private IRuleJavaStatuteService iRuleJavaStatuteService;
+
+    @Autowired
+    private IScanResultCountService iScanResultCountService;
+
+    @GetMapping(value = "StartScanApi")
+    public Result<String> StartScanApi(){
+
+        return null;
+    }
+
+    /**
+     * 网络钩子自动检测
+     */
+//    @PostMapping(value = "/ConfigurableStart")
+//    public Result<String> ConfigurableStart(@RequestBody(required = false) JSONObject jsonObject){
+//        //如果RequestBody为空，返回错误提示
+//        if(Objects.isNull(jsonObject)){
+//            return new Result<String>(400,"错误的请求格式：参数为空");
+//        }
+//
+//        String mergelink = jsonObject.getString("mergelink");
+//        String substring = mergelink.substring(0,mergelink.indexOf("pull-requests") + ("pull-requests").length());
+//        String getHttpByPath = HttpClientUtil.createGetHttpByPathWithBasic(substring);
+//        JSONObject jsonObject3 = JSONObject.parseObject(getHttpByPath);
+//        JSONArray values = jsonObject3.getJSONArray("values");
+//
+//        JSONArray jsonArray=new JSONArray();
+//
+//        for (int i = 0; i < values.size(); i++) {
+//            //diff链接
+//            String difflink = values.getJSONObject(i).getJSONObject("links").getJSONArray("self").getJSONObject(0).getString("href");
+//            int projects = difflink.indexOf("projects");
+//            difflink=difflink.substring(0,projects-1)+"/rest/api/1.0"+difflink.substring(projects-1)+"/diff";
+//            JSONObject diffresult = JSONObject.parseObject(HttpClientUtil.createGetHttpByPathWithBasic(difflink));
+//            JSONArray diffs = diffresult.getJSONArray("diffs");
+//            //仓库链接
+//            String repolink = values.getJSONObject(i).getJSONObject("toRef").getJSONObject("repository").getJSONObject("links").getJSONArray("self").getJSONObject(0).getString("href");
+//            repolink=repolink.substring(0,projects-1)+"/rest/api/1.0"+repolink.substring(projects-1);
+//
+//            for (int i1 = 0; i1 < diffs.size(); i1++) {
+//                //文件列表
+//                JSONObject fileList=new JSONObject();
+//                String string = diffs.getJSONObject(i1).getJSONObject("destination").getString("toString");
+//                if (string.endsWith(".java")) {//非java文件不加入
+//                    fileList.put("filename",string.substring(string.lastIndexOf("/")+1));
+//                    fileList.put("filepath",string);
+//                    fileList.put("link",repolink+"/"+string);
+//                    jsonArray.add(fileList);
+//                }
+//            }
+//        }
+//
+//        for (int i = 0; i < jsonArray.size(); i++) {
+//            //获取文件内容
+//            String getHttpByPathWithBasic = HttpClientUtil.createGetHttpByPathWithBasic(jsonArray.getJSONObject(i).getString("link"));
+//            JSONObject code = JSONObject.parseObject(getHttpByPathWithBasic);
+//            JSONArray lines = code.getJSONArray("lines");
+//            String codestr="";
+//            for (int i1 = 0; i1 < lines.size(); i1++) {
+//                codestr+=lines.getJSONObject(i1).getString("text")+"\n";
+//            }
+//            jsonArray.getJSONObject(i).put("code",codestr);
+//        }
+//
+//        //拉取配置问题
+//        List<RuleJavaStatute> ruleJavaStatutes = iRuleJavaStatuteService.GetRuleIDandRemark();
+//        ListIterator<RuleJavaStatute> ruleJavaStatuteListIterator = ruleJavaStatutes.listIterator();
+//        JSONObject jsonObject1=new JSONObject();
+//
+//        //构造配置表
+//        while(ruleJavaStatuteListIterator.hasNext()){
+//            RuleJavaStatute next = ruleJavaStatuteListIterator.next();
+//            jsonObject1.put(next.getId().toString(),next.getRemark());
+//        }
+//
+//        //将自定义配置加到配置表
+//        JSONObject configurable = jsonObject.getJSONObject("configurable");
+//        Iterator<Map.Entry<String, Object>> iterator = configurable.entrySet().iterator();
+//        while(iterator.hasNext()){
+//            Map.Entry<String, Object> next = iterator.next();
+//            jsonObject1.replace(next.getKey(),next.getValue());
+//        }
+//
+//        for (int i = 0; i < jsonArray.size()/2; i++) {
+//            JSONObject file = jsonArray.getJSONObject(i);
+//            try {
+//                JSONObject result =new JSONObject();
+//                //调用检测
+//                result.putAll(RuleChecker.runByArrary(file.getString("code"), jsonObject1));
+//                file.put("result",result);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        //把这些数据装到静态页面里边去
+//        long count=0;
+//        List<List<String>> list=new LinkedList<List<String>>();
+//        //调用检测
+//        try {
+//            JSONObject jsonObject2 = RuleChecker.runByArrary(javacode, jsonObject1);
+//
+//            for(String str:jsonObject2.keySet()){
+//                JSONArray result = jsonObject2.getJSONObject(str).getJSONArray("result");
+//                count+=result.size();
+//                for (int i = 0; i < result.size(); i++) {
+//                    List<String> list1=new LinkedList<String>();
+//                    list1.add(result.getJSONObject(i).getString("ID"));
+//                    list1.add("filename");
+//                    list1.add("filepath");
+//                    list1.add(result.getJSONObject(i).getString("questionableLine"));
+//                    list1.add("规约描述规约描述规约描述规约描述规约描述规约描述");
+//                    list1.add(result.getJSONObject(i).getString("errorCode"));
+//                    list1.add("按钮");
+//                    list.add(list1);
+//                }
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        FileWriter writer = null;
+//        String filePath="C:\\AICodeHunter\\wensScanResult.html";
+////        if (iScanResultCountService.addScanResultCount(count)) {
+////            //文件输出的路径及文件名
+////            try {
+////                //数据
+////                Context context = new Context();
+////                context.setVariable("data1", list);
+////                writer = new FileWriter(filePath);
+////                templateEngine.process("wensScanResult", context, writer);  //参数：模板，数据，文件输出流
+////                //关闭文件
+////                writer.close();
+////            } catch (IOException e) {
+////                e.printStackTrace();
+////            }
+////            return new Result<String>(200,filePath);
+////        }
+//        return new Result<String>(500,null);
+//    }
+
     @GetMapping(value = "/StartScan")
-    public Result<JSONArray> StartScan(int id){
+    public Result<JSONArray> StartScan(int id) throws IOException {
+        if (readRedis(id)) {
+            return Result.error("任务一存在，请勿重复开启扫描");
+        }
         TaskManagementTable taskManagementTable=iTaskManagementTableService.queryTaskById(id);//根据id查询任务信息
         CertificationManagementForm certificationManagementForm=iCertificationManagementFormService.selectOneCer(taskManagementTable.getSysUsername(),taskManagementTable.getowner());//查询主体
         TaskPathTable taskPathTable=iTaskPathTableService.queryTaskPathBySysnameandTaskName(taskManagementTable.getSysUsername(),taskManagementTable.getTaskName());//查询文件列表，拉取文件内容
@@ -99,12 +248,11 @@ public class TaskScanStatusController {
         }
 
         for(int i=0;i<jsonArray.size();i++){//JAVA规约扫描、代码缺陷检测
-
-            try {
+            try{
                 CompilationUnit cu = StaticJavaParser.parse(jsonArray.getJSONObject(i).getString("code"));//生成相似度检测需要的方法列表
                 new MethodExtractorUtil.MethodVisitor().visit(cu, null);
                 jsonArray3.addAll(new MethodExtractorUtil.MethodVisitor().methodCutter(cu, jsonArray.getJSONObject(i).getString("filename")));//分割方法
-            } catch (IOException e) {
+            }catch (IOException e) {
                 e.printStackTrace();
             }
 
@@ -123,12 +271,7 @@ public class TaskScanStatusController {
 
             if (taskScanningScheme.getSqlrule().equals("true")) {//规约扫描
                 JSONObject jsonObject =new JSONObject();
-                try {
-                    jsonObject.putAll(RuleChecker.runByArrary(jsonArray.getJSONObject(i).getString("code"), config));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                System.out.println(jsonObject);
+                jsonObject.putAll(RuleChecker.runByArrary(jsonArray.getJSONObject(i).getString("code"), config));
                 jsonArray.getJSONObject(i).remove("code");//移除掉代码内容，防止数据库存储内容太庞大
                 jsonArray.getJSONObject(i).put("result", jsonObject.clone());//需要将文件按照行数来分割
             }
@@ -235,6 +378,11 @@ public class TaskScanStatusController {
         return Result.error("扫描失败或数据库出错，请重试");
     }
 
+    /**
+     * 查询扫描进度
+     * @param id
+     * @return
+     */
     @GetMapping(value = "/queryScanStatus")
     public Result<TaskScanStatus> queryScanStatus(int id){
         TaskScanStatus taskScanStatus=null;
@@ -264,6 +412,14 @@ public class TaskScanStatusController {
     }
 
     /**
+     * 查redis
+     * @param id
+     */
+    public boolean readRedis(int id){
+        return stringRedisTemplate.opsForValue().get("scanning:" + id) != null;
+    }
+
+    /**
      * 设置扫苗结果
      * @param taskScanStatus
      * @param
@@ -276,4 +432,9 @@ public class TaskScanStatusController {
         return taskScanStatus;
 
     }
+
+    public static String javacode="package org.jeecg.modules.system.controller;\n\nimport com.alibaba.fastjson.JSON;\nimport com.alibaba.fastjson.JSONArray;\nimport com.alibaba.fastjson.JSONObject;\nimport com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;\nimport com.fasterxml.jackson.core.JsonProcessingException;\nimport com.fasterxml.jackson.databind.ObjectMapper;\nimport lombok.extern.slf4j.Slf4j;\nimport org.jeecg.common.api.vo.Result;\nimport org.jeecg.modules.system.controller.Gitee.gitController;\nimport org.jeecg.modules.system.entity.CertificationManagementForm;\nimport org.jeecg.modules.system.entity.MailTemplate;\nimport org.jeecg.modules.system.model.HttpClientUtil;\nimport org.jeecg.modules.system.service.ICertificationManagementFormService;\nimport org.jeecg.modules.system.service.IGitlabService;\nimport org.jeecg.modules.system.service.ISendMailService;\nimport org.jeecg.modules.system.util.RSAutil;\nimport org.springframework.beans.factory.annotation.Autowired;\nimport org.springframework.data.redis.core.StringRedisTemplate;\nimport org.springframework.web.bind.annotation.GetMapping;\nimport org.springframework.web.bind.annotation.RequestMapping;\nimport org.springframework.web.bind.annotation.RequestParam;\nimport org.springframework.web.bind.annotation.RestController;\nimport org.jeecg.modules.system.controller.Test.Enum;\n\nimport java.util.Date;\nimport java.util.Iterator;\nimport java.util.LinkedList;\nimport java.util.List;\n\nimport org.jeecg.modules.system.controller.GitBypwd.connect;\n\n/**\n * <p>\n *  前端控制器\n * </p>\n *\n * @author 菜瓜皮\n * @since 2022-08-29\n */\n@Slf4j\n@RestController\n@RequestMapping(\"/certificationManagementForm\")\npublic class CertificationManagementFormController {\n\n    @Autowired\n    private ICertificationManagementFormService iCertificationManagementFormService;\n\n    @Autowired\n    private StringRedisTemplate stringRedisTemplate;\n\n    private static final ObjectMapper mapper = new ObjectMapper();\n\n    @Autowired\n    private ISendMailService iSendMailService;\n\n    @Autowired\n    private IGitlabService iGitlabService;\n\n    /**\n     * 新增认证，若存在不予添加，不存在则加之\n     * @param certificationManagementForm\n     * @return\n     */\n    @GetMapping(value = \"/addCertification\")\n    public Result<List<CertificationManagementForm>> addCertification(CertificationManagementForm certificationManagementForm){\n        Result<List<CertificationManagementForm>> resultobj = new Result<List<CertificationManagementForm>>();\n        //1.首先判断认证是否存在(根据系统账号、平台、账号、标识名)\n        if(iCertificationManagementFormService.Cer_Exist(certificationManagementForm)){\n            resultobj.setMessage(\"认证重复\");\n            return resultobj;\n        }\n\n        if(iCertificationManagementFormService.IdentificationName_Exist(certificationManagementForm)){\n            resultobj.setMessage(\"认证标识名已存在\");\n            return resultobj;\n        }\n        certificationManagementForm.setDatatime((new Date().getTime())/1000);\n        switch (certificationManagementForm.getPlatform()){\n            case \"GitLab\":\n                if(iGitlabService.getGitLabConnect(certificationManagementForm.getGiteeAccount(), RSAutil.decrypt(certificationManagementForm.getGiteePassword(), RSAutil.PrivateKey))){\n                    resultobj.setMessage(Enum.ADD_SUCCESS);\n                    certificationManagementForm.setAccessToken(RSAutil.decrypt(certificationManagementForm.getGiteePassword(), RSAutil.PrivateKey));\n                    iCertificationManagementFormService.InsertCer(certificationManagementForm);\n                    resultobj.setResult(iCertificationManagementFormService.queryCerBySysUserName(certificationManagementForm.getSysUsername()));\n                }\n                break;\n            case \"Gitee\":\n                Result<JSONObject> result = connect.gitCer(certificationManagementForm.getSysUsername(),certificationManagementForm.getGiteeAccount(),certificationManagementForm.getGiteePassword(),certificationManagementForm.getClientId(),certificationManagementForm.getClientSecret());\n                if(result.getMessage().equals(Enum.GITEE_SIGNIN_SUCCESS)){\n                    iSendMailService.SendMail(new MailTemplate(\"1192129669@qq.com\",certificationManagementForm.getGiteeAccount(),\"CodeHunter邮件通知\",\"尊敬的用户，您的码云账号\"+certificationManagementForm.getGiteeAccount()+\"已授权CodeHunter平台，感谢使用CodeHunter平台。如非本人操作，请立即更改密码。\"));\n                    certificationManagementForm.setDatatime(Long.parseLong(result.getResult().getString(\"created_at\")));\n                    certificationManagementForm.setAccessToken(result.getResult().getString(\"access_token\"));\n                    iCertificationManagementFormService.InsertCer(certificationManagementForm);\n                    resultobj.setCode(Enum.REQUEST_NORMAL);\n                    resultobj.setMessage(Enum.ADD_SUCCESS);\n                    resultobj.setResult(iCertificationManagementFormService.queryCerBySysUserName(certificationManagementForm.getSysUsername()));\n                }\n                break;\n            case \"GitHub\":\n                //先验证秘钥\n\n                //若秘钥通过，则存入数据库\n                System.out.println(\"GitHub\");\n                break;\n        }\n//        iCertificationManagementFormService.Update_Redis(certificationManagementForm.getSysUsername());\n        resultobj.setMessage(\"添加成功\");\n        return resultobj;\n    }\n\n    /**\n     * 根据系统用户名与码云邮箱进行认证查询\n     * @param jeecg_account\n     * @param giteeAccount\n     * @return\n     */\n    @GetMapping(value = \"/queryCertification\")\n    public Result<CertificationManagementForm> queryCertification(@RequestParam(\"jeecg_account\")String jeecg_account, @RequestParam(\"giteeAccount\")String giteeAccount){\n        Result<CertificationManagementForm> resultobj = new Result<CertificationManagementForm>();\n        QueryWrapper<CertificationManagementForm> qw = new QueryWrapper<CertificationManagementForm>();\n        qw.eq(\"sysUsername\",jeecg_account).eq(\"giteeAccount\",giteeAccount);\n        List<CertificationManagementForm> result = iCertificationManagementFormService.list(qw);\n\n//        try {\n//            String redis_key = mapper.writeValueAsString(result);\n//            System.out.println(redis_key);\n//        } catch (JsonProcessingException e) {\n//            e.printStackTrace();\n//        }\n\n        if(result.size()==0){\n            resultobj.setCode(Enum.REQUEST_NORMAL);\n            resultobj.setMessage(Enum.QUERY_NULL);\n            resultobj.setResult(null);\n        }\n        else{\n            resultobj.setCode(Enum.REQUEST_NORMAL);\n            resultobj.setMessage(Enum.AUTHENTICATION_EXIST);\n            resultobj.setResult(result.get(0));\n        }\n        return resultobj;\n    }\n\n    @GetMapping(value = \"/queryCertificationBySysName\")\n    public Result<List<CertificationManagementForm>> queryCertificationBySysName(@RequestParam(\"jeecg_account\")String jeecg_account){\n        Result<List<CertificationManagementForm>> resultobj = new Result<List<CertificationManagementForm>>();\n\n        List<CertificationManagementForm> result = iCertificationManagementFormService.queryCerBySysUserName(jeecg_account);\n\n//        if(stringRedisTemplate.opsForValue().get(\"Certification:\"+jeecg_account) != null){\n//            result = (List)JSONArray.parseArray(stringRedisTemplate.opsForValue().get(\"Certification:\"+jeecg_account));\n//        }else{\n//            iCertificationManagementFormService.Update_Redis(jeecg_account);\n//        }\n        resultobj.setMessage(Enum.QUERY_SUCCESS);\n        resultobj.setCode(Enum.REQUEST_NORMAL);\n        resultobj.setResult(result);\n        return resultobj;\n    }\n\n\n    @GetMapping(value = \"/deleteCertificationBySysNameandGitee\")\n    public Result<List<CertificationManagementForm>> deleteCertificationBySysNameandGitee(@RequestParam(\"jeecg_account\")String jeecg_account,@RequestParam(\"giteeAccount\")String giteeAccount){\n        Result<List<CertificationManagementForm>> resultobj = new Result<List<CertificationManagementForm>>();\n        List<CertificationManagementForm> result = null;\n        QueryWrapper<CertificationManagementForm> qw = new QueryWrapper<CertificationManagementForm>();\n        qw.eq(\"sysUsername\",jeecg_account).eq(\"giteeAccount\",giteeAccount);\n        if(!iCertificationManagementFormService.queryCerIsExistBySysnameandGitee(jeecg_account,giteeAccount)){\n            resultobj.setCode(Enum.REQUEST_NORMAL);\n            resultobj.setMessage(Enum.DELETE_FAILED+Enum.CERTIFICATION_NOT_EXIST);\n            resultobj.setResult(iCertificationManagementFormService.queryCerBySysUserName(jeecg_account));\n        }\n        else{\n            resultobj.setCode(Enum.REQUEST_NORMAL);\n            resultobj.setMessage(Enum.DELETE_SUCCESS);\n            iCertificationManagementFormService.DeleteCer(jeecg_account,giteeAccount);\n//            iCertificationManagementFormService.Update_Redis(jeecg_account);\n            resultobj.setResult(iCertificationManagementFormService.queryCerBySysUserName(jeecg_account));\n        }\n        return resultobj;\n    }\n\n\n    /**\n     * 通过系统账号获取拥有的认证主体、主体仓库、仓库分支信息\n     * @param jeecg_account 系统用户账号\n     * @return 列表\n     */\n    @GetMapping(value = \"/queryCerandRepoBySysName\")\n    public Result<List<JSONObject>> queryCerandRepoBySysName(@RequestParam(\"jeecg_account\")String jeecg_account){\n\n        Result<List<JSONObject>> result = new Result<List<JSONObject>>();\n        List<CertificationManagementForm> CerList = iCertificationManagementFormService.queryCerBySysUserName(jeecg_account);\n        List<JSONObject> list = new LinkedList<JSONObject>();\n\n        Iterator<CertificationManagementForm> iter = CerList.listIterator();\n        while(iter.hasNext()){\n            JSONObject obj = new JSONObject();\n            CertificationManagementForm carry = iter.next();\n            obj.put(\"identificationName\",carry.getIdentificationName());\n            obj.put(\"platform\",carry.getPlatform());\n\n            if(carry.getPlatform().equals(\"Gitee\")){\n                //认证检查\n                if(new Date().getTime()-carry.getDatatime()>86400){\n                    JSONObject result2 = connect.updateAccessToken(carry);\n                    if(result2.getString(\"error\") != null){\n                        result.setCode(400);\n                        result.setMessage(result2.getString(\"error\"));\n                        result.setResult(null);\n                    }\n                    else{\n                        //将认证信息更新到数据库\n                        carry.setAccessToken(result2.getString(\"access_token\"));\n                        carry.setDatatime(result2.getLong(\"created_at\"));\n                        iCertificationManagementFormService.updateById(carry);\n                    }\n                }\n                //获取仓库分支信息\n                int i;\n                JSONArray objrepo = gitController.getAllRepos(carry.getAccessToken());\n                for(i=0;i<objrepo.size();i++) {\n                    //直接拼装path请求分支信息\n                    String s = HttpClientUtil.createGetHttpByPath(objrepo.getJSONObject(i).getString(\"branches_url\").replaceAll(\"\\\\{/branch}\",\"\")+\"?access_token=\"+carry.getAccessToken());\n                    objrepo.getJSONObject(i).put(\"branchs\",JSONArray.parseArray(s));\n                }\n                obj.put(\"repo\",objrepo);\n            }else{\n                if(carry.getPlatform().equals(\"GitLab\")){\n                    //先拿到认证的所有仓库信息\n                    String s = iGitlabService.getUserProjects(carry.getGiteeAccount(),carry.getAccessToken());\n                    JSONArray array = JSON.parseArray(s);\n                    JSONArray gitlabrepo = new JSONArray();\n                    for(int i=0;i<array.size();i++){\n                        String str = iGitlabService.getRepoBranchs(carry.getGiteeAccount(),array.getJSONObject(i).getString(\"id\"),carry.getAccessToken());\n                        JSONArray strjson = JSON.parseArray(str);\n                        array.getJSONObject(i).put(\"branchs\",strjson);\n                        gitlabrepo.add(array.getJSONObject(i));\n                    }\n                    obj.put(\"repo\",gitlabrepo);\n                }\n            }\n            list.add(obj);\n        }\n        result.setResult(list);\n        return result;\n    }\n}\n";
+
 }
+
+

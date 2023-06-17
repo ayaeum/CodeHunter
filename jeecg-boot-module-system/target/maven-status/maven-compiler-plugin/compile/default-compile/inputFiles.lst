@@ -53,9 +53,11 @@ F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\m
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\impl\SysUserRoleServiceImpl.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\entity\TaskScanResult.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\ISysRolePermissionService.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\IScanUneffectiveRecodeService.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\SysDepartMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\util\FindsDepartsChildrenUtil.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\config\jimureport\JimuReportTokenService.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\ScanUneffectiveRecodeMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\ngalain\controller\NgAlainController.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\quartz\mapper\QuartzJobMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\ICertificationManagementFormService.java
@@ -74,6 +76,7 @@ F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\m
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\vo\thirdapp\JdtDepartmentTreeVo.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\entity\SysDepartPermission.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\TaskScanningSchemeMapper.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\controller\ScanResultCountController.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\impl\SendMailServiceImpl.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\util\DocumentProcessingUtil\JavaFileFilter.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\TaskDatasTableMapper.java
@@ -137,6 +140,7 @@ F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\m
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\SysLogMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\SysDepartRoleUserMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\model\DuplicateCheckVo.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\impl\ScanResultCountServiceImpl.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\SysUserDepartMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\model\TreeSelectModel.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\controller\CertificationManagementFormController.java
@@ -153,6 +157,7 @@ F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\m
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\TaskScanResultMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\ISysUserRoleService.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\impl\SysDepartRoleServiceImpl.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\IScanResultCountService.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\oss\controller\OssFileController.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\entity\TaskManagementTable.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\vo\SysUserDepVo.java
@@ -186,8 +191,10 @@ F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\m
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\entity\SysUserAgent.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\message\service\impl\SysMessageTemplateServiceImpl.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\entity\SysDepartRole.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\controller\ScanUneffectiveRecodeController.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\controller\SysTenantController.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\impl\GitlabServiceImpl.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\entity\ScanResultCount.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\message\websocket\WebSocket.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\controller\ThirdLoginController.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\ISysPermissionService.java
@@ -240,8 +247,10 @@ F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\m
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\model\AnnouncementSendModel.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\SysPositionMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\util\RSAutil.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\entity\ScanUneffectiveRecode.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\SysUserAgentMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\controller\SysAnnouncementSendController.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\ScanResultCountMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\monitor\domain\RedisInfo.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\SysPermissionMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\controller\SysCategoryController.java
@@ -267,6 +276,7 @@ F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\m
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\ISysPositionService.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\entity\SysFillRule.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\message\mapper\SysMessageTemplateMapper.java
+F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\service\impl\ScanUneffectiveRecodeServiceImpl.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\controller\SysGatewayRouteController.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\mapper\SysDepartRolePermissionMapper.java
 F:\jeecg-boot-master\jeecg-boot-master\jeecg-boot\jeecg-boot-module-system\src\main\java\org\jeecg\modules\system\rule\OrgCodeRule.java

@@ -2,19 +2,23 @@ package org.jeecg.modules.system.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import net.sf.json.JSONArray;
-import org.checkerframework.checker.units.qual.C;
 import org.jeecg.common.api.vo.Result;
 import org.jeecg.modules.system.controller.Test.Enum;
-import org.jeecg.modules.system.entity.CertificationManagementForm;
 import org.jeecg.modules.system.entity.TaskScanningScheme;
+import org.jeecg.modules.system.service.IScanResultCountService;
+import org.jeecg.modules.system.service.IScanUneffectiveRecodeService;
 import org.jeecg.modules.system.service.ITaskScanningSchemeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.stereotype.Controller;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * <p>
@@ -32,12 +36,67 @@ public class TaskScanningSchemeController {
     @Autowired
     private ITaskScanningSchemeService iTaskScanningSchemeService;
 
+    @Autowired
+    private IScanUneffectiveRecodeService iScanUneffectiveRecodeService;
+
+    @Autowired
+    private TemplateEngine templateEngine;  //使用TemplateEngine对象
+
+    @Autowired
+    private IScanResultCountService iScanResultCountService;
+
+    public void buildPage() throws IOException {
+        //数据
+        Context context = new Context();
+        context.setVariable("hello", "hello thymeleaf!");
+
+        //文件输出的路径及文件名
+        FileWriter writer = new FileWriter("E:\\temp\\page\\hello.html");
+
+        templateEngine.process("hello", context, writer);  //参数：模板，数据，文件输出流
+        //关闭文件
+        writer.close();
+    }
+
     /**
      * 网络钩子自动检测
      */
-    @GetMapping(value = "/test")
-    public void test(){
-        System.out.println("通過測試");
+    @PostMapping(value = "/test")
+    public Result<String> test(@RequestBody(required = false)JSONObject jsonObject){
+        System.out.println(jsonObject.getString("ID"));
+        List<List<String>> list=new LinkedList<List<String>>();
+        for (int i = 0; i < 10; i++) {
+            List<String> list1=new LinkedList<String>();
+            list1.add("JeecgSystemApplication");
+            list1.add("JeecgSystemApplication");
+            list1.add("35");
+            list1.add("长命名约定");
+            list1.add("35 function sayHello(name) {\n" +
+                    "36 console.log(\"Hello, \" + name + \"!\");\n" +
+                    "37 }\n" +
+                    "38 sayHello(\"John\");");
+            list1.add("按钮");
+            list.add(list1);
+        }
+
+        FileWriter writer = null;
+        String filePath="C:\\AICodeHunter\\wensScanResult.html";
+        if (iScanResultCountService.addScanResultCount(10)) {
+            //文件输出的路径及文件名
+            try {
+                //数据
+                Context context = new Context();
+                context.setVariable("data1", list);
+                writer = new FileWriter(filePath);
+                templateEngine.process("wensScanResult", context, writer);  //参数：模板，数据，文件输出流
+                //关闭文件
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return new Result<String>(200,filePath);
+        }
+        return new Result<String>(500,null);
     }
 
     @GetMapping(value = "/queryTaskScan")
