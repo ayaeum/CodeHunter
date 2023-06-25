@@ -247,7 +247,7 @@ public class TaskScanStatusController {
             SetTaskScanStatus(taskScanStatus,"本次不进行JAVA规约扫描。\n",taskScanStatus.getStatus()+"本次不进行JAVA规约扫描。\n",taskScanStatus.getProcess(),taskScanStatus.getProcess1());
         }
 
-        for(int i=0;i<jsonArray.size();i++){//JAVA规约扫描、代码缺陷检测
+        for(int i=0;i<jsonArray.size();i++){        //JAVA规约扫描、代码缺陷检测
             try{
                 CompilationUnit cu = StaticJavaParser.parse(jsonArray.getJSONObject(i).getString("code"));//生成相似度检测需要的方法列表
                 new MethodExtractorUtil.MethodVisitor().visit(cu, null);
@@ -363,7 +363,7 @@ public class TaskScanStatusController {
                 String mail = templateEngine.process("scanresult.html", ctx);
                 String[] emailList=taskScanningScheme.getEmail().substring(1,taskScanningScheme.getEmail().length()-1).split(",");
                 for (String s : emailList) {
-                    sendHtmlMail.sendHtmlMails("1192129669@qq.com", s, "扫描结果通知", mail);
+                    sendHtmlMail.sendHtmlMails("2861446127@qq.com", s, "扫描结果通知", mail);
                 }
             }
             try {

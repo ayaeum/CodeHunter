@@ -27,8 +27,9 @@ spring:
       max-request-size: 10MB
   mail:
     host: smtp.qq.com
-    username: 1192129669@qq.com
-    password: tpnpmpljugaababd
+    username: 2861446127@qq.com
+    password: lfzjixdunfyadfhc
+
     properties:
       mail:
         smtp:
