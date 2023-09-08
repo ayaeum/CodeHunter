@@ -287,7 +287,7 @@ cas:
 #Mybatis输出sql日志
 logging:
   level:
-    org.jeecg.modules.system.mapper: info
+    org.jeecg.modules.system.mapper: debug
 #swagger
 knife4j:
   #开启增强配置

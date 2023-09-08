@@ -93,133 +93,125 @@ public class TaskScanStatusController {
     /**
      * 网络钩子自动检测
      */
-//    @PostMapping(value = "/ConfigurableStart")
-//    public Result<String> ConfigurableStart(@RequestBody(required = false) JSONObject jsonObject){
-//        //如果RequestBody为空，返回错误提示
-//        if(Objects.isNull(jsonObject)){
-//            return new Result<String>(400,"错误的请求格式：参数为空");
-//        }
-//
-//        String mergelink = jsonObject.getString("mergelink");
-//        String substring = mergelink.substring(0,mergelink.indexOf("pull-requests") + ("pull-requests").length());
-//        String getHttpByPath = HttpClientUtil.createGetHttpByPathWithBasic(substring);
-//        JSONObject jsonObject3 = JSONObject.parseObject(getHttpByPath);
-//        JSONArray values = jsonObject3.getJSONArray("values");
-//
-//        JSONArray jsonArray=new JSONArray();
-//
-//        for (int i = 0; i < values.size(); i++) {
-//            //diff链接
-//            String difflink = values.getJSONObject(i).getJSONObject("links").getJSONArray("self").getJSONObject(0).getString("href");
-//            int projects = difflink.indexOf("projects");
-//            difflink=difflink.substring(0,projects-1)+"/rest/api/1.0"+difflink.substring(projects-1)+"/diff";
-//            JSONObject diffresult = JSONObject.parseObject(HttpClientUtil.createGetHttpByPathWithBasic(difflink));
-//            JSONArray diffs = diffresult.getJSONArray("diffs");
-//            //仓库链接
-//            String repolink = values.getJSONObject(i).getJSONObject("toRef").getJSONObject("repository").getJSONObject("links").getJSONArray("self").getJSONObject(0).getString("href");
-//            repolink=repolink.substring(0,projects-1)+"/rest/api/1.0"+repolink.substring(projects-1);
-//
-//            for (int i1 = 0; i1 < diffs.size(); i1++) {
-//                //文件列表
-//                JSONObject fileList=new JSONObject();
-//                String string = diffs.getJSONObject(i1).getJSONObject("destination").getString("toString");
-//                if (string.endsWith(".java")) {//非java文件不加入
-//                    fileList.put("filename",string.substring(string.lastIndexOf("/")+1));
-//                    fileList.put("filepath",string);
-//                    fileList.put("link",repolink+"/"+string);
-//                    jsonArray.add(fileList);
-//                }
-//            }
-//        }
-//
-//        for (int i = 0; i < jsonArray.size(); i++) {
-//            //获取文件内容
-//            String getHttpByPathWithBasic = HttpClientUtil.createGetHttpByPathWithBasic(jsonArray.getJSONObject(i).getString("link"));
-//            JSONObject code = JSONObject.parseObject(getHttpByPathWithBasic);
-//            JSONArray lines = code.getJSONArray("lines");
-//            String codestr="";
-//            for (int i1 = 0; i1 < lines.size(); i1++) {
-//                codestr+=lines.getJSONObject(i1).getString("text")+"\n";
-//            }
-//            jsonArray.getJSONObject(i).put("code",codestr);
-//        }
-//
-//        //拉取配置问题
-//        List<RuleJavaStatute> ruleJavaStatutes = iRuleJavaStatuteService.GetRuleIDandRemark();
-//        ListIterator<RuleJavaStatute> ruleJavaStatuteListIterator = ruleJavaStatutes.listIterator();
-//        JSONObject jsonObject1=new JSONObject();
-//
-//        //构造配置表
-//        while(ruleJavaStatuteListIterator.hasNext()){
-//            RuleJavaStatute next = ruleJavaStatuteListIterator.next();
-//            jsonObject1.put(next.getId().toString(),next.getRemark());
-//        }
-//
-//        //将自定义配置加到配置表
-//        JSONObject configurable = jsonObject.getJSONObject("configurable");
-//        Iterator<Map.Entry<String, Object>> iterator = configurable.entrySet().iterator();
-//        while(iterator.hasNext()){
-//            Map.Entry<String, Object> next = iterator.next();
-//            jsonObject1.replace(next.getKey(),next.getValue());
-//        }
-//
-//        for (int i = 0; i < jsonArray.size()/2; i++) {
-//            JSONObject file = jsonArray.getJSONObject(i);
-//            try {
-//                JSONObject result =new JSONObject();
-//                //调用检测
-//                result.putAll(RuleChecker.runByArrary(file.getString("code"), jsonObject1));
-//                file.put("result",result);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        //把这些数据装到静态页面里边去
-//        long count=0;
-//        List<List<String>> list=new LinkedList<List<String>>();
-//        //调用检测
-//        try {
-//            JSONObject jsonObject2 = RuleChecker.runByArrary(javacode, jsonObject1);
-//
-//            for(String str:jsonObject2.keySet()){
-//                JSONArray result = jsonObject2.getJSONObject(str).getJSONArray("result");
-//                count+=result.size();
-//                for (int i = 0; i < result.size(); i++) {
-//                    List<String> list1=new LinkedList<String>();
-//                    list1.add(result.getJSONObject(i).getString("ID"));
-//                    list1.add("filename");
-//                    list1.add("filepath");
-//                    list1.add(result.getJSONObject(i).getString("questionableLine"));
-//                    list1.add("规约描述规约描述规约描述规约描述规约描述规约描述");
-//                    list1.add(result.getJSONObject(i).getString("errorCode"));
-//                    list1.add("按钮");
-//                    list.add(list1);
-//                }
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        FileWriter writer = null;
-//        String filePath="C:\\AICodeHunter\\wensScanResult.html";
-////        if (iScanResultCountService.addScanResultCount(count)) {
-////            //文件输出的路径及文件名
-////            try {
-////                //数据
-////                Context context = new Context();
-////                context.setVariable("data1", list);
-////                writer = new FileWriter(filePath);
-////                templateEngine.process("wensScanResult", context, writer);  //参数：模板，数据，文件输出流
-////                //关闭文件
-////                writer.close();
-////            } catch (IOException e) {
-////                e.printStackTrace();
-////            }
-////            return new Result<String>(200,filePath);
-////        }
-//        return new Result<String>(500,null);
-//    }
+    @PostMapping(value = "/ConfigurableStart")
+    public Result<String> ConfigurableStart(@RequestBody(required = false) JSONObject jsonObject){
+        //如果RequestBody为空，返回错误提示
+        if(Objects.isNull(jsonObject)){
+            return new Result<String>(400,"错误的请求格式：参数为空");
+        }
+
+        String mergelink = jsonObject.getString("mergelink");
+        String substring = mergelink.substring(0,mergelink.indexOf("pull-requests") + ("pull-requests").length());
+        String getHttpByPath = HttpClientUtil.createGetHttpByPathWithBasic(substring);
+        JSONObject jsonObject3 = JSONObject.parseObject(getHttpByPath);
+        JSONArray values = jsonObject3.getJSONArray("values");
+
+        JSONArray jsonArray=new JSONArray();
+
+        for (int i = 0; i < values.size(); i++) {
+            //diff链接
+            String difflink = values.getJSONObject(i).getJSONObject("links").getJSONArray("self").getJSONObject(0).getString("href");
+            int projects = difflink.indexOf("projects");
+            difflink=difflink.substring(0,projects-1)+"/rest/api/1.0"+difflink.substring(projects-1)+"/diff";
+            JSONObject diffresult = JSONObject.parseObject(HttpClientUtil.createGetHttpByPathWithBasic(difflink));
+            JSONArray diffs = diffresult.getJSONArray("diffs");
+            //仓库链接
+            String repolink = values.getJSONObject(i).getJSONObject("toRef").getJSONObject("repository").getJSONObject("links").getJSONArray("self").getJSONObject(0).getString("href");
+            repolink=repolink.substring(0,projects-1)+"/rest/api/1.0"+repolink.substring(projects-1);
+
+            for (int i1 = 0; i1 < diffs.size(); i1++) {
+                //文件列表
+                JSONObject fileList=new JSONObject();
+                String string = diffs.getJSONObject(i1).getJSONObject("destination").getString("toString");
+                if (string.endsWith(".java")) {//非java文件不加入
+                    fileList.put("filename",string.substring(string.lastIndexOf("/")+1));
+                    fileList.put("filepath",string);
+                    fileList.put("link",repolink+"/"+string);
+                    jsonArray.add(fileList);
+                }
+            }
+        }
+
+        for (int i = 0; i < jsonArray.size(); i++) {
+            //获取文件内容
+            String getHttpByPathWithBasic = HttpClientUtil.createGetHttpByPathWithBasic(jsonArray.getJSONObject(i).getString("link"));
+            JSONObject code = JSONObject.parseObject(getHttpByPathWithBasic);
+            JSONArray lines = code.getJSONArray("lines");
+            String codestr="";
+            for (int i1 = 0; i1 < lines.size(); i1++) {
+                codestr+=lines.getJSONObject(i1).getString("text")+"\n";
+            }
+            jsonArray.getJSONObject(i).put("code",codestr);
+        }
+
+        //拉取配置问题
+        List<RuleJavaStatute> ruleJavaStatutes = iRuleJavaStatuteService.GetRuleIDandRemark();
+        ListIterator<RuleJavaStatute> ruleJavaStatuteListIterator = ruleJavaStatutes.listIterator();
+        JSONObject jsonObject1=new JSONObject();
+
+        //构造配置表
+        while(ruleJavaStatuteListIterator.hasNext()){
+            RuleJavaStatute next = ruleJavaStatuteListIterator.next();
+            jsonObject1.put(next.getId().toString(),next.getRemark());
+        }
+
+        //将自定义配置加到配置表
+        JSONObject configurable = jsonObject.getJSONObject("configurable");
+        Iterator<Map.Entry<String, Object>> iterator = configurable.entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry<String, Object> next = iterator.next();
+            jsonObject1.replace(next.getKey(),next.getValue());
+        }
+
+        for (int i = 0; i < jsonArray.size()/2; i++) {
+            JSONObject file = jsonArray.getJSONObject(i);
+            JSONObject result =new JSONObject();
+            //调用检测
+            result.putAll(RuleChecker.runByArrary(file.getString("code"), jsonObject1));
+            file.put("result",result);
+        }
+
+        //把这些数据装到静态页面里边去
+        long count=0;
+        List<List<String>> list=new LinkedList<List<String>>();
+        //调用检测
+        JSONObject jsonObject2 = RuleChecker.runByArrary(javacode, jsonObject1);
+
+        for(String str:jsonObject2.keySet()){
+            JSONArray result = jsonObject2.getJSONObject(str).getJSONArray("result");
+            count+=result.size();
+            for (int i = 0; i < result.size(); i++) {
+                List<String> list1=new LinkedList<String>();
+                list1.add(result.getJSONObject(i).getString("ID"));
+                list1.add("filename");
+                list1.add("filepath");
+                list1.add(result.getJSONObject(i).getString("questionableLine"));
+                list1.add("规约描述规约描述规约描述规约描述规约描述规约描述");
+                list1.add(result.getJSONObject(i).getString("errorCode"));
+                list1.add("按钮");
+                list.add(list1);
+            }
+        }
+
+        FileWriter writer = null;
+        String filePath="C:\\AICodeHunter\\wensScanResult.html";
+        if (iScanResultCountService.addScanResultCount(count)) {
+            //文件输出的路径及文件名
+            try {
+                //数据
+                Context context = new Context();
+                context.setVariable("data1", list);
+                writer = new FileWriter(filePath);
+                templateEngine.process("wensScanResult", context, writer);  //参数：模板，数据，文件输出流
+                //关闭文件
+                writer.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return new Result<String>(200,filePath);
+        }
+        return new Result<String>(500,null);
+    }
 
     @GetMapping(value = "/StartScan")
     public Result<JSONArray> StartScan(int id) throws IOException {
